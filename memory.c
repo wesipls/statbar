@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <sys/sysinfo.h>
-#include <string.h>
 
 /* /proc/meminfo has a MemAvailable for a more accurate guesstimation, freeram returns RAM that is currently empty */
 

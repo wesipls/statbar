@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <sys/sysinfo.h>
-#include <string.h>
 
 struct sysinfo info;
 
