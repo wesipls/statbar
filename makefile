@@ -1,4 +1,6 @@
 CC=gcc
 
+all: memory swap
+
 memory: memory.c
-	gcc -o memory memory.c
+swap: swap.c

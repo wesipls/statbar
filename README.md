@@ -2,5 +2,7 @@
 Small programs in C displaying stats for statusbars
 
 ### Memory
-Shows current used RAM
+Shows current RAM usage
+## Swap
+Shows current swap usage
 
