@@ -1,8 +1,12 @@
 # statbar_scripts
 Small programs in C displaying stats for statusbars
 
-### Memory
+## memory.c
 Shows current RAM usage
-## Swap
+
+## swap.c
 Shows current swap usage
+
+## network_in_out.c
+Shows incoming and outgoing network traffic
 
