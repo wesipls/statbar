@@ -1,5 +1,3 @@
-/* TODO: Change K to M in output if bytes exceed 1000K */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
