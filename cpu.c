@@ -1,8 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-void read_proc_stat() {
+void read_proc_stat(unsigned long *prev_total, unsigned long *prev_idle,
+                    unsigned long *current_total, unsigned long *current_idle) {
   FILE *file = fopen("/proc/stat", "r");
   if (!file) {
     perror("Failed to open /proc/stat");
@@ -10,11 +9,12 @@ void read_proc_stat() {
   }
 
   char line[256];
-  unsigned long prev_total = 0, prev_idle = 0;
-  FILE *tmp_file = fopen("./tmp", "r");
+  *prev_total = 0;
+  *prev_idle = 0;
+  FILE *tmp_file = fopen("/tmp/cpu_usage", "r");
   if (tmp_file) {
-    if (fscanf(tmp_file, "%lu %lu", &prev_total, &prev_idle) != 2) {
-      perror("Failed to read previous values from temporary file");
+    if (fscanf(tmp_file, "%lu %lu", prev_total, prev_idle) != 2) {
+      perror("Failed to open /tmp/cpu_usage");
     }
     fclose(tmp_file);
   }
@@ -30,37 +30,40 @@ void read_proc_stat() {
            &guest_nice);
 
     /* Save the values to a temporary file */
-    unsigned long current_total = user + nice + system + irq + softirq + steal +
-                                  guest + guest_nice + idle + iowait;
-    unsigned long current_idle = idle + iowait;
-
-    /* Print calculated CPU usage */
-    printf("Prev Total CPU: %lu\n", prev_total);
-    printf("Prev Idle CPU: %lu\n", prev_idle);
-    printf("Total CPU: %lu\n", current_total);
-    printf("Idle CPU: %lu\n", current_idle);
-
-    unsigned long total_final = current_total - prev_total;
-    printf("%lu\n", total_final);
-    unsigned long total_idle = current_idle - prev_idle;
-    printf("%lu\n", total_idle);
-    double usage =
-        ((double)(total_final - total_idle) * 100) / (double)total_final;
-
-    printf("%.2f\n", usage);
-    FILE *tmp_file = fopen("./tmp", "w");
-    if (tmp_file) {
-      fprintf(tmp_file, "%lu %lu\n", current_total, current_idle);
-      fclose(tmp_file);
-    } else {
-      perror("Failed to open temporary file");
-    }
+    *current_total = user + nice + system + irq + softirq + steal + guest +
+                     guest_nice + idle + iowait;
+    *current_idle = idle + iowait;
   }
 
   fclose(file);
 }
 
+void calculate_cpu_usage(unsigned long prev_total, unsigned long prev_idle,
+                         unsigned long current_total,
+                         unsigned long current_idle) {
+  unsigned long total_final = current_total - prev_total;
+  unsigned long total_idle = current_idle - prev_idle;
+  double usage =
+      ((double)(total_final - total_idle) * 100) / (double)total_final;
+  printf("CPU: %.2f%%\n", usage);
+}
+
+void write_tmp_file(unsigned long current_total, unsigned long current_idle) {
+  FILE *file = fopen("/tmp/cpu_usage", "w");
+  if (!file) {
+    perror("Failed to open /tmp/cpu_usage");
+    return;
+  }
+
+  fprintf(file, "%lu %lu\n", current_total, current_idle);
+  fclose(file);
+}
+
 int main() {
-  read_proc_stat();
+  unsigned long prev_total = 0, prev_idle = 0, current_total = 0,
+                current_idle = 0;
+  read_proc_stat(&prev_total, &prev_idle, &current_total, &current_idle);
+  calculate_cpu_usage(prev_total, prev_idle, current_total, current_idle);
+  write_tmp_file(current_total, current_idle);
   return 0;
 }
