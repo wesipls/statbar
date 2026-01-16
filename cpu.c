@@ -1,54 +1,66 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
-#define MAX_LINE_LENGTH 1024
-#define NUM_COLUMNS 10
+void read_proc_stat() {
+  FILE *file = fopen("/proc/stat", "r");
+  if (!file) {
+    perror("Failed to open /proc/stat");
+    return;
+  }
 
-void print_column_sums(unsigned long long column_sums[], int num_columns) {
-    for (int i = 0; i < num_columns; i++) {
-        printf("The sum of column %d is: %llu\n", i, column_sums[i]);
+  char line[256];
+  unsigned long prev_total = 0, prev_idle = 0;
+  FILE *tmp_file = fopen("./tmp", "r");
+  if (tmp_file) {
+    if (fscanf(tmp_file, "%lu %lu", &prev_total, &prev_idle) != 2) {
+      perror("Failed to read previous values from temporary file");
     }
-}
+    fclose(tmp_file);
+  }
 
-void calculate_column_sums(FILE *file, unsigned long long column_sums[], int num_columns) {
-    char line[MAX_LINE_LENGTH];
+  if (fgets(line, sizeof(line), file)) {
+    /* Variables to hold CPU usage data */
+    unsigned long user, nice, system, idle, iowait, irq, softirq, steal, guest,
+        guest_nice;
 
-    while (fgets(line, sizeof(line), file)) {
-        if (strncmp(line, "cpu", 3) == 0 && isdigit(line[3])) {
-            char *token = strtok(line, " "); // First token is "cpuX"
-            int column_index = 0;
+    /* Parse the first line of /proc/stat into variables */
+    sscanf(line, "cpu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu", &user, &nice,
+           &system, &idle, &iowait, &irq, &softirq, &steal, &guest,
+           &guest_nice);
 
-            while (token != NULL && column_index < num_columns) {
-                token = strtok(NULL, " ");
-                if (token != NULL) {
-                    column_sums[column_index++] += strtoull(token, NULL, 10);
-                }
-            }
-        }
+    /* Save the values to a temporary file */
+    unsigned long current_total = user + nice + system + irq + softirq + steal +
+                                  guest + guest_nice + idle + iowait;
+    unsigned long current_idle = idle + iowait;
+
+    /* Print calculated CPU usage */
+    printf("Prev Total CPU: %lu\n", prev_total);
+    printf("Prev Idle CPU: %lu\n", prev_idle);
+    printf("Total CPU: %lu\n", current_total);
+    printf("Idle CPU: %lu\n", current_idle);
+
+    unsigned long total_final = current_total - prev_total;
+    printf("%lu\n", total_final);
+    unsigned long total_idle = current_idle - prev_idle;
+    printf("%lu\n", total_idle);
+    double usage =
+        ((double)(total_final - total_idle) * 100) / (double)total_final;
+
+    printf("%.2f\n", usage);
+    FILE *tmp_file = fopen("./tmp", "w");
+    if (tmp_file) {
+      fprintf(tmp_file, "%lu %lu\n", current_total, current_idle);
+      fclose(tmp_file);
+    } else {
+      perror("Failed to open temporary file");
     }
-}
+  }
 
-FILE* open_file(const char *filepath) {
-    FILE *file = fopen(filepath, "r");
-    if (file == NULL) {
-        perror("Failed to open file");
-    }
-    return file;
+  fclose(file);
 }
 
 int main() {
-    unsigned long long column_sums[NUM_COLUMNS] = {0};
-    FILE *file = open_file("/proc/stat");
-    if (file == NULL) {
-        return 1;
-    }
-
-    calculate_column_sums(file, column_sums, NUM_COLUMNS);
-    fclose(file);
-
-    print_column_sums(column_sums, NUM_COLUMNS);
-
-    return 0;
+  read_proc_stat();
+  return 0;
 }
