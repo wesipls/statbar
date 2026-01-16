@@ -13,7 +13,7 @@ echo '[],'
 while true; do
   # Current Time
   CURRENT_TIME=$(date +'%a %d %b %H:%M')
-  CPUTMP=$(sensors | awk '/Tccd1/{print $2}')
+  CPUTMP=$(sensors | awk '/Tccd1/{print $2}') #Rebuild this bad boy in C if possible, hwmon might change per reboot, the internet told me so and im to lazy to check for now.
   RAM=$(/home/wesipls/.config/sway/statbar/memory)
   SWAP=$(/home/wesipls/.config/sway/statbar/swap)
   CPU=$(/home/wesipls/.config/sway/statbar/cpu)
