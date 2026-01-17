@@ -41,9 +41,8 @@ void calculate_cpu_usage(unsigned long prev_total, unsigned long prev_idle,
                          unsigned long current_idle) {
   unsigned long total_final = current_total - prev_total;
   unsigned long total_idle = current_idle - prev_idle;
-  double usage =
-      ((double)(total_final - total_idle) * 100) / (double)total_final;
-  printf("CPU: %.2f%%\n", usage);
+  int usage = ((total_final - total_idle) * 100) / total_final;
+  printf("CPU: %d%%\n", usage);
 }
 
 /* Writes current values to tmp file */
