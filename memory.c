@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <sys/sysinfo.h>
 
+/* This program does not use the free -m AvailableMemory estimation, but rather
+ * checks flat out used ram vs empty ram, */
+/* Some used ram can quickly be reassigned to new programs and is assigned as
+ * AvailableMemory, hence many RAM programs will give a lower used ram
+ * esitmation than this program */
+/* Just as a heads up if you're palnning on using this program */
+
 /* Converts bytes to gigabytes */
 double bytes_to_gb(unsigned long bytes) { return bytes / (double)1073741824; }
 
