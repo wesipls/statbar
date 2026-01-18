@@ -46,14 +46,14 @@ void compute_bytes_diff(const char *bytes_current, const char *bytes_last,
                         int time_diff, char *result) {
   unsigned long long current = strtoull(bytes_current, NULL, 10);
   unsigned long long last = strtoull(bytes_last, NULL, 10);
-  unsigned long long diff = current > last ? current - last : 0;
+  double diff = (current > last ? current - last : 0);
 
   /* Convert to kilobytes per second */
   diff = diff / 1024 / time_diff;
   if (diff > 1024) {
     sprintf(result, "%.1fM", diff / 1024.0);
   } else {
-    sprintf(result, "%lluK", diff);
+    sprintf(result, "%.1fK", diff);
   }
 }
 
