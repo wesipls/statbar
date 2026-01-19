@@ -23,9 +23,11 @@ Displays current used disk space on sda:
 ## disk_io.sh
 Displays current disk I/O usage on sda:  
 Output: `↓ 1.2M / ↑ 500.0K`
+## sda_temp.sh
+Displays current  temperature on sda:  
+Output: `15°C`
 
 [NOTE]: These programs are provided as-is and may require modifications, below are a few suggestion on the top of my head:  
-
 status.sh:  
 -Change the path for the scripts  
 
@@ -35,4 +37,7 @@ network_in_out.c:
 
 gpu.c:  
 -Requires rocm-smi to be installed and a compatible AMD GPU.  
--Assumes the first GPU (index 0) is the one to monitor.  
+-Assumes the first GPU (index 0) is the one to monitor. 
+
+sda_temp.sh:
+-requires smartmontools and sudo nopasswd for the /disk_temp.sh script.
