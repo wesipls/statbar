@@ -26,6 +26,9 @@ Output: `↓ 1.2M / ↑ 500.0K`
 ## sda_temp.sh
 Displays current temperature on sda:  
 Output: `15°C`
+## weather.sh
+Displays count of currently upgradeable packages.  
+Output: `🌫   0.0mm   →10km/h   -1°C   (-4°C)`
 ## updates.sh
 Displays count of currently upgradeable packages.  
 Output: `2 Upgradeble packages`
@@ -42,5 +45,12 @@ gpu.c:
 -Requires rocm-smi to be installed and a compatible AMD GPU.  
 -Assumes the first GPU (index 0) is the one to monitor. 
 
-sda_temp.sh:
+sda_temp.sh:  
 -requires smartmontools and sudo nopasswd for the /disk_temp.sh script.
+
+weather.sh:  
+-Change the api call to use your home town, unless you want the weather for Espoo.
+
+updates.sh:  
+-Requires debian with apt.
+
