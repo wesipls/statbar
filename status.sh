@@ -24,6 +24,7 @@ while true; do
   NET=$(/home/wesipls/.config/sway/statbar/network_in_out)
   SDA=$(/home/wesipls/.config/sway/statbar/sda)
   DISK_IO=$(/home/wesipls/.config/sway/statbar/disk_io.sh)
+  DISK_TEMP=$(/home/wesipls/.config/sway/statbar/sda_temp.sh)
   WEATHER=$(/home/wesipls/.config/sway/statbar/weather.sh)
 
   # Create JSON array for bar items
@@ -45,8 +46,8 @@ while true; do
           "align": "center"
         },'
   echo '{ 
-          "full_text": "'"$SDA $DISK_IO"'",
-          "min_width": 240,
+  "full_text": "'"$SDA $DISK_IO $DISK_TEMP"'",
+          "min_width": 260,
           "align": "center"
         },'
   echo '{ 
