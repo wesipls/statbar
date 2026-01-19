@@ -26,6 +26,7 @@ while true; do
   DISK_IO=$(/home/wesipls/.config/sway/statbar/disk_io.sh)
   DISK_TEMP=$(/home/wesipls/.config/sway/statbar/sda_temp.sh)
   WEATHER=$(/home/wesipls/.config/sway/statbar/weather.sh)
+  UPDATES=$(/home/wesipls/.config/sway/statbar/updates.sh)
 
   # Create JSON array for bar items
   echo '['
@@ -58,6 +59,11 @@ while true; do
   echo '{ 
           "full_text": "'"$WEATHER"'",
           "min_width": 288,
+          "align": "center"
+        },'
+  echo '{ 
+          "full_text": "'"$UPDATES"'",
+          "min_width": 192,
           "align": "center"
         },'
   echo '{ 

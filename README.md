@@ -24,8 +24,11 @@ Displays current used disk space on sda:
 Displays current disk I/O usage on sda:  
 Output: `↓ 1.2M / ↑ 500.0K`
 ## sda_temp.sh
-Displays current  temperature on sda:  
+Displays current temperature on sda:  
 Output: `15°C`
+## updates.sh
+Displays count of currently upgradeable packages.  
+Output: `2 Upgradeble packages`
 
 [NOTE]: These programs are provided as-is and may require modifications, below are a few suggestion on the top of my head:  
 status.sh:  
