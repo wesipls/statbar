@@ -31,44 +31,44 @@ while true; do
   # Create JSON array for bar items
   echo '['
   echo '{ "full_text": "'"$RAM"'",
-          "min_width": 144,
+          "min_width": 150,
           "align": "center"
         },'
   echo '{ "full_text": "'"$SWAP"'",
-          "min_width": 144,
+          "min_width": 150,
           "align": "center"
         },'
   echo '{ "full_text": "'"$CPU $CPUTMP"'",
-          "min_width": 144,
+          "min_width": 150,
           "align": "center"
         },'
   echo '{ "full_text": "'"$GPU"'",
-          "min_width": 144,
+          "min_width": 150,
           "align": "center"
         },'
   echo '{ 
   "full_text": "'"$SDA $DISK_IO $DISK_TEMP"'",
-          "min_width": 260,
+          "min_width": 300,
           "align": "center"
         },'
   echo '{ 
           "full_text": "'"$NET"'",
-          "min_width": 192,
+          "min_width": 220,
           "align": "center"
         },'
   echo '{ 
           "full_text": "'"$WEATHER"'",
-          "min_width": 288,
+          "min_width": 320,
           "align": "center"
         },'
   echo '{ 
           "full_text": "'"$UPDATES"'",
-          "min_width": 192,
+          "min_width": 200,
           "align": "center"
         },'
   echo '{ 
           "full_text": "'"$CURRENT_TIME"'",
-          "min_width": 144,
+          "min_width": 180,
           "align": "center"
         },'
   echo '],'
