@@ -24,7 +24,7 @@ while true; do
   NET=$(/home/wesipls/.config/sway/statbar/network_in_out)
   SDA=$(/home/wesipls/.config/sway/statbar/sda)
   DISK_IO=$(/home/wesipls/.config/sway/statbar/disk_io.sh)
-  DISK_TEMP=$(/home/wesipls/.config/sway/statbar/sda_temp.sh)
+  DISK_TEMP=$(/home/wesipls/.config/sway/statbar/disk_temp.sh)
   WEATHER=$(/home/wesipls/.config/sway/statbar/weather.sh)
   UPDATES=$(/home/wesipls/.config/sway/statbar/updates.sh)
 
