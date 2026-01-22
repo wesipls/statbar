@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Usage: ./updates.sh
+#Example output: "3 upgrades available"
+#
 #Short script to check for available apt updates, and display count of available updates.
 #Requires debian-based system with apt package manager.
 #
