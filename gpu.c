@@ -5,8 +5,8 @@
   Requires: ROCm SMI library, and a compatible AMD GPU.
   Assumes the first GPU (ID 0) is to be monitored.
 
-  Make sure to link against the ROCm SMI library when compiling: gcc gpu.c
-  -lrocm_smi -o gpu Or use the makefile.
+  Make sure to link against the ROCm SMI library when
+  compiling: gcc gpu.c-lrocm_smi -o gpu Or use the makefile.
  */
 
 #include <inttypes.h>
