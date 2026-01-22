@@ -22,7 +22,7 @@ while true; do
   CPU=$(/home/wesipls/.config/sway/statbar/cpu)
   GPU=$(/home/wesipls/.config/sway/statbar/gpu)
   NET=$(/home/wesipls/.config/sway/statbar/network_in_out)
-  SDA=$(/home/wesipls/.config/sway/statbar/sda)
+  DISK=$(/home/wesipls/.config/sway/statbar/disk)
   DISK_IO=$(/home/wesipls/.config/sway/statbar/disk_io.sh)
   DISK_TEMP=$(/home/wesipls/.config/sway/statbar/disk_temp.sh)
   WEATHER=$(/home/wesipls/.config/sway/statbar/weather.sh)
@@ -47,7 +47,7 @@ while true; do
           "align": "center"
         },'
   echo '{ 
-  "full_text": "'"$SDA $DISK_IO $DISK_TEMP"'",
+  "full_text": "'"$DISK $DISK_IO $DISK_TEMP"'",
           "min_width": 300,
           "align": "center"
         },'

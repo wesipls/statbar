@@ -22,7 +22,7 @@ void calculate_swap_usage(struct sysinfo info, double *swap_used,
 
 /* Displays swap usage */
 void display_swap_usage(double swap_used, double swap_total) {
-  printf("SWP: %.1fG/%.1fG\n", swap_used, swap_total);
+  printf("SWAP: %.1fG/%.1fG\n", swap_used, swap_total);
 }
 
 int main() {
