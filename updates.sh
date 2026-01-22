@@ -20,6 +20,8 @@ UPGRADE_COUNT=$(apt list --upgradeable 2>/dev/null | grep -c "upgradable")
 # Display the appropriate message if no packages are upgradeable
 if [[ $UPGRADE_COUNT -eq 0 ]]; then
   echo "Up to date"
+elif [[ $UPGRADE_COUNT -eq 1 ]]; then
+  echo "$UPGRADE_COUNT upgrade available"
 else
   echo "$UPGRADE_COUNT upgrades available"
 fi
