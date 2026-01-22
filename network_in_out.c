@@ -1,10 +1,22 @@
+/*
+  Usage: ./network_in_out
+  Example Output: NET: ↓ 12.3K / ↑ 8.7K
+
+  Fetches network statistics from /sys/class/net/enp5s0/statistics/rx_bytes and
+  /sys/class/net/enp5s0/statistics/tx_bytes, and saves values to /tmp/net_in_tmp
+  and /tmp/net_out_tmp respectively.
+
+  Assumes this program is run every 5 seconds, change the time_diff variable to
+  match run interval. Assumes your network interface is enp5s0, change the paths
+  if necessary.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define STRSIZE 32
 
-/* Function to read bytes from a file into a given buffer */
 int read_bytes(const char *file_path, char *buffer, size_t buffer_size) {
   FILE *file = fopen(file_path, "r");
   if (file == NULL) {
@@ -22,7 +34,6 @@ int read_bytes(const char *file_path, char *buffer, size_t buffer_size) {
   return 0;
 }
 
-/* Function to write bytes to a file */
 int write_bytes(const char *file_path, const char *data) {
   FILE *file = fopen(file_path, "w");
   if (file == NULL) {
@@ -40,15 +51,12 @@ int write_bytes(const char *file_path, const char *data) {
   return 0;
 }
 
-/* Function to compute the difference between two byte counts and return as
- * human-readable */
 void compute_bytes_diff(const char *bytes_current, const char *bytes_last,
                         int time_diff, char *result) {
   unsigned long long current = strtoull(bytes_current, NULL, 10);
   unsigned long long last = strtoull(bytes_last, NULL, 10);
   double diff = (current > last ? current - last : 0);
 
-  /* Convert to kilobytes per second */
   diff = diff / 1024 / time_diff;
   if (diff > 1024) {
     sprintf(result, "%.1fM", diff / 1024.0);
@@ -57,7 +65,6 @@ void compute_bytes_diff(const char *bytes_current, const char *bytes_last,
   }
 }
 
-/* Main function */
 int main() {
   const char *rx_current_path = "/sys/class/net/enp5s0/statistics/rx_bytes";
   const char *rx_last_path = "/tmp/net_in_tmp";
@@ -66,9 +73,8 @@ int main() {
 
   char rx_current[STRSIZE], rx_last[STRSIZE], rx_diff[STRSIZE];
   char tx_current[STRSIZE], tx_last[STRSIZE], tx_diff[STRSIZE];
-  int time_diff = 5; /* interval for checking difference in seconds */
+  int time_diff = 5;
 
-  /* Handle RX bytes */
   if (read_bytes(rx_current_path, rx_current, STRSIZE) != 0 ||
       read_bytes(rx_last_path, rx_last, STRSIZE) != 0) {
     fprintf(stderr, "Failed to read RX bytes\n");
@@ -79,7 +85,6 @@ int main() {
     compute_bytes_diff(rx_current, rx_last, time_diff, rx_diff);
   }
 
-  /* Handle TX bytes */
   if (read_bytes(tx_current_path, tx_current, STRSIZE) != 0 ||
       read_bytes(tx_last_path, tx_last, STRSIZE) != 0) {
     fprintf(stderr, "Failed to read TX bytes\n");
