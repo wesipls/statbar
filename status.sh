@@ -1,17 +1,17 @@
 #!/bin/bash
 
-#Status script for swaybar
+#Status script for swaybar.
+#Usage: ./status.sh
+#Or add it as the status_command in your sway config.
 
-# Header
+# Header, required by swaybar
 echo '{ "version": 1 }'
 
-# Start infinite loop for status updates
+# Start infinite loop <-- This is needed, just FYI future me
 echo '['
 echo '[],'
 
-# Mark that we are starting the infinite loop
 while true; do
-  # Current Time
   CURRENT_TIME=$(date +'%a %d %b %H:%M')
   CPUTMP=$(
     i=$(sensors | awk '/Tccd1/{print $2}' | rev | cut -c6- | rev)
@@ -28,7 +28,7 @@ while true; do
   WEATHER=$(/home/wesipls/.config/sway/statbar/weather.sh)
   UPDATES=$(/home/wesipls/.config/sway/statbar/updates.sh)
 
-  # Create JSON array for bar items
+  # Print JSON
   echo '['
   echo '{ "full_text": "'"$RAM"'",
           "min_width": 150,
@@ -73,5 +73,5 @@ while true; do
         },'
   echo '],'
 
-  sleep 5 # Update every second
+  sleep 5
 done
